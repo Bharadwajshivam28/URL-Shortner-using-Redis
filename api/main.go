@@ -1,28 +1,31 @@
 package main
 
 import (
-	"github.com/gofiber/fiber/v2"
-	"log"
 	"fmt"
+	"log"
 	"os"
+
+	"Bharadwajshivam28/URL-Shortner-using-Redis/routes"
+	"github.com/gofiber/fiber/v2"
 	"github.com/gofiber/fiber/v2/middleware/logger"
 	"github.com/joho/godotenv"
 )
 
-func setUpRoutes (app *fiber.App){
+func setupRoutes(app *fiber.App) {
 	app.Get("/:url", routes.ResolveURL)
 	app.Post("/api/v1", routes.ShortenURL)
 }
 
-func main (){
+func main() {
 	err := godotenv.Load()
 	if err != nil {
 		fmt.Println(err)
 	}
 	app := fiber.New()
+
 	app.Use(logger.New())
+
 	setupRoutes(app)
 
-	Log.Fatal(app.Listen(os.Getenv("APP_PORT")))
-
+	log.Fatal(app.Listen(os.Getenv("APP_PORT")))
 }
